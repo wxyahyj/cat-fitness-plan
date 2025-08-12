@@ -90,6 +90,13 @@ function 显示徽章() {
   }
 }
 
+function 更新进度条(dayIndex) {
+  const 格子 = document.querySelector(`.进度格[data-day="${dayIndex}"]`);
+  if (格子) {
+    格子.classList.add("已完成");
+  }
+}
+
 // 页面加载时执行
 window.onload = function () {
   加载训练内容();
