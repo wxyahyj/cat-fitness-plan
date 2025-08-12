@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>猫猫健身打卡计划</title>
+  <title>uto的猫猫健身打卡计划</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -56,6 +56,12 @@
       border-radius: 10px;
       margin-bottom: 10px;
     }
+    .day-title {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #ff69b4;
+    }
   </style>
 </head>
 <body>
@@ -73,9 +79,9 @@
   </div>
 
   <div class="section">
-    <h2>🧘‍♀️ 今日训练卡片</h2>
+    <h2>🧘‍♀️ 一周训练卡片</h2>
     <div class="card" id="训练内容">
-      <!-- 动作清单将自动填充 -->
+      <!-- 一周动作清单将自动填充 -->
     </div>
   </div>
 
@@ -118,10 +124,17 @@
     }
 
     function 加载训练内容() {
-      const today = new Date().getDay(); // 0 = 周日
-      const 动作 = 动作计划[today];
       const container = document.getElementById("训练内容");
-      container.innerHTML = 动作.map(item => `<p>🐾 ${item}</p>`).join("");
+      container.innerHTML = "";
+
+      const 星期 = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+      for (let i = 0; i < 7; i++) {
+        const 动作 = 动作计划[i];
+        const section = document.createElement("div");
+        section.innerHTML = `<div class="day-title">📅 ${星期[i]}</div>` + 动作.map(item => `<p>🐾 ${item}</p>`).join("");
+        container.appendChild(section);
+      }
     }
 
     function 恢复打卡记录() {
