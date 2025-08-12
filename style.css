@@ -1,0 +1,42 @@
+/* style.css */
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-color: #fffaf0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 猫猫进度条样式 */
+#进度条容器 {
+  position: fixed;
+  left: 10px;
+  bottom: 20px;
+  width: 40px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to top, #f0f0f0, #ffffff);
+  border-radius: 20px;
+  padding: 10px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.进度格 {
+  width: 30px;
+  height: 30px;
+  margin: 5px 0;
+  background-color: #ddd;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  background-image: url("catpaw-gray.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.进度格.已完成 {
+  background-color: #ffcc00;
+  background-image: url("catpaw-colored.png");
+}
