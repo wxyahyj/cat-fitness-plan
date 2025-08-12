@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>🐱 uto的猫猫健身打卡计划</title>
+  <title>🐱猫猫健身打卡计划</title>
   <style>
     body {
       margin: 0;
@@ -193,10 +193,6 @@
 
     function 填充训练卡片() {
       const 容器 = document.getElementById("训练内容");
-      if (!容器) {
-        console.error("找不到训练内容容器喵！");
-        return;
-      }
       容器.innerHTML = "";
       for (let i = 0; i < 7; i++) {
         const 卡片 = document.createElement("div");
@@ -219,18 +215,22 @@
       }
     }
 
-    function 打卡() {
-      const 现在 = new Date();
-      const 日期 = 现在.toISOString().slice(0,10);
+    function 加载打卡记录() {
       const 表格 = document.getElementById("打卡记录");
-      const 行 = document.createElement("tr");
-      行.innerHTML = `<td>${日期}</td><td>已完成 ✅</td>`;
-      表格.appendChild(行);
+      const 记录 = JSON.parse(localStorage.getItem("打卡记录")) || [];
 
-      document.getElementById("打卡状态").textContent = `今天已经打卡喵！ 🎉`;
-    }
+      if (记录.length > 0) {
+        document.getElementById("打卡状态").textContent = "今天是否打卡喵？";
+      }
 
-    window.onload = 填充训练卡片;
-  </script>
-</body>
-</html>
+      记录.forEach(item => {
+        const 行 = document.createElement("tr");
+        行.innerHTML = `<td>${item.日期}</td><td>${item.状态}</td>`;
+        表格.appendChild(行);
+      });
+
+      // 如果今天已经打过卡，更新状态显示
+      const 今天 = new Date().toISOString().slice(0,10);
+      const 今天是否打卡 = 记录.some(item => item.日期 === 今天);
+      if (今天是否打卡) {
+        document.getElementById("打卡状态").textContent =
