@@ -2,91 +2,143 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>猫猫打卡计划 🐾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>猫猫健身打卡计划</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
-      background-color: #fffafc;
+      background: #fffafc;
       color: #333;
-      text-align: center;
-      padding: 2em;
+      margin: 0;
+      padding: 0;
     }
-    h1 {
-      font-size: 2em;
-      color: #ff69b4;
+    header {
+      background: #ffb6c1;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    .section {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
     }
     button {
-      padding: 0.6em 1.2em;
-      font-size: 1em;
-      background-color: #ffb6c1;
+      background: #ff69b4;
+      color: white;
       border: none;
-      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
       cursor: pointer;
-      margin-bottom: 1em;
-    }
-    button:hover {
-      background-color: #ff8da1;
+      border-radius: 5px;
     }
     table {
-      margin: 0 auto;
+      width: 100%;
       border-collapse: collapse;
-      width: 80%;
+      margin-top: 10px;
     }
     th, td {
-      border: 1px solid #ddd;
-      padding: 0.6em;
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
     }
-    th {
-      background-color: #ffe4e1;
+    canvas {
+      max-width: 100%;
+      margin-top: 20px;
     }
-    .cat-img {
-      width: 100px;
-      margin-bottom: 1em;
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <img src="https://cdn.pixabay.com/photo/2021/01/15/10/04/cat-5917074_1280.png" alt="Cat" class="cat-img" />
-  <h1>猫猫打卡计划 🐱</h1>
-  <button onclick="addRecord()">今天打卡！</button>
-  <table id="recordTable">
-    <thead>
-      <tr>
-        <th>序号</th>
-        <th>日期</th>
-        <th>时间</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <header>
+    <h1>🐱 猫猫健身打卡计划</h1>
+    <p>一起变强壮，喵！💪</p>
+  </header>
 
+  <div class="section">
+    <h2>✅ 今日打卡</h2>
+    <button onclick="打卡()">我打卡啦！</button>
+    <table id="打卡记录">
+      <tr><th>日期</th><th>状态</th></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🏋️‍♀️ 每周健身计划</h2>
+    <table>
+      <tr><th>星期</th><th>训练内容</th></tr>
+      <tr><td>周一</td><td>深蹲 + 俯卧撑</td></tr>
+      <tr><td>周二</td><td>慢跑 30 分钟</td></tr>
+      <tr><td>周三</td><td>核心训练（平板支撑、卷腹）</td></tr>
+      <tr><td>周四</td><td>休息或拉伸</td></tr>
+      <tr><td>周五</td><td>引体向上 + 弹力带训练</td></tr>
+      <tr><td>周六</td><td>HIIT 高强度间歇训练</td></tr>
+      <tr><td>周日</td><td>瑜伽 + 冥想</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📉 体重变化趋势</h2>
+    <canvas id="weightChart" width="600" height="300"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>🍽️ 饮食建议</h2>
+    <ul>
+      <li>早餐：蛋白质 + 碳水（如鸡蛋 + 燕麦）</li>
+      <li>午餐：均衡搭配（蔬菜 + 主食 + 肉类）</li>
+      <li>晚餐：清淡为主，避免高糖高脂</li>
+      <li>零食：坚果、水果、酸奶</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🐾 鼓励语 & 心情记录</h2>
+    <p id="鼓励语">“你已经很棒了，继续加油喵！”</p>
+    <textarea placeholder="今天的心情记录..."></textarea>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const tableBody = document.querySelector("#recordTable tbody");
-
-    function loadRecords() {
-      const records = JSON.parse(localStorage.getItem("catRecords") || "[]");
-      tableBody.innerHTML = "";
-      records.forEach((record, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${record.date}</td><td>${record.time}</td>`;
-        tableBody.appendChild(row);
-      });
+    function 打卡() {
+      const table = document.getElementById("打卡记录");
+      const row = table.insertRow(-1);
+      const dateCell = row.insertCell(0);
+      const statusCell = row.insertCell(1);
+      const today = new Date().toLocaleDateString();
+      dateCell.innerText = today;
+      statusCell.innerText = "已打卡 ✅";
     }
 
-    function addRecord() {
-      const now = new Date();
-      const record = {
-        date: now.toLocaleDateString(),
-        time: now.toLocaleTimeString()
-      };
-      const records = JSON.parse(localStorage.getItem("catRecords") || "[]");
-      records.push(record);
-      localStorage.setItem("catRecords", JSON.stringify(records));
-      loadRecords();
-    }
-
-    loadRecords();
+    const ctx = document.getElementById('weightChart').getContext('2d');
+    const weightChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['7/1', '7/8', '7/15', '7/22', '7/29'],
+        datasets: [{
+          label: '体重 (kg)',
+          data: [60, 59.5, 59, 58.7, 58.2],
+          borderColor: '#ff69b4',
+          fill: false,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
   </script>
 </body>
 </html>
