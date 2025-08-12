@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>猫猫打卡计划 🐾</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #fffafc;
+      color: #333;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 2em;
+      color: #ff69b4;
+    }
+    button {
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      background-color: #ffb6c1;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    button:hover {
+      background-color: #ff8da1;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 80%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.6em;
+    }
+    th {
+      background-color: #ffe4e1;
+    }
+    .cat-img {
+      width: 100px;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://cdn.pixabay.com/photo/2021/01/15/10/04/cat-5917074_1280.png" alt="Cat" class="cat-img" />
+  <h1>猫猫打卡计划 🐱</h1>
+  <button onclick="addRecord()">今天打卡！</button>
+  <table id="recordTable">
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>日期</th>
+        <th>时间</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const tableBody = document.querySelector("#recordTable tbody");
+
+    function loadRecords() {
+      const records = JSON.parse(localStorage.getItem("catRecords") || "[]");
+      tableBody.innerHTML = "";
+      records.forEach((record, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${record.date}</td><td>${record.time}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function addRecord() {
+      const now = new Date();
+      const record = {
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString()
+      };
+      const records = JSON.parse(localStorage.getItem("catRecords") || "[]");
+      records.push(record);
+      localStorage.setItem("catRecords", JSON.stringify(records));
+      loadRecords();
+    }
+
+    loadRecords();
+  </script>
+</body>
+</html>
