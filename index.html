@@ -1,114 +1,236 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>猫猫健身打卡计划</title>
-  <link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <title>🐱 uto的猫猫健身打卡计划</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #fffafc;
-      color: #333;
       margin: 0;
-      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f0ff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
+
     header {
-      background: #ffb6c1;
+      background-color: #c8a2c8;
       padding: 20px;
       text-align: center;
+      color: white;
     }
+
     header h1 {
       margin: 0;
-      font-size: 2.5em;
+      font-size: 2.2em;
     }
-    .section {
+
+    main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #左栏 {
+      width: 300px;
+      background-color: #e5dcf7;
       padding: 20px;
-      max-width: 800px;
-      margin: auto;
+      overflow-y: auto;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
     }
+
+    #主内容 {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      color: #6a0dad;
+      margin-top: 0;
+    }
+
     button {
-      background: #ff69b4;
+      background: #9966cc;
       color: white;
       border: none;
       padding: 10px 20px;
       font-size: 1em;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 5px;
     }
+
+    button:hover {
+      background-color: #7d5bb1;
+    }
+
     table {
       width: 100%;
-      border-collapse: collapse;
       margin-top: 10px;
+      border-collapse: collapse;
     }
+
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 6px;
       text-align: center;
+      background-color: #f8f3ff;
     }
+
+    .card {
+      background: #faf4ff;
+      border: 1px solid #dac0ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .day-title {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+      color: #8a2be2;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
     textarea {
       width: 100%;
       height: 80px;
       margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 8px;
+      font-family: "Segoe UI", sans-serif;
     }
-    .card {
-      background: #ffeef4;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    .day-title {
-      font-weight: bold;
-      font-size: 1.2em;
+
+    #徽章展示 {
+      display: flex;
+      gap: 10px;
       margin-top: 10px;
-      color: #ff69b4;
+    }
+
+    .勋章 {
+      width: 40px;
+      height: 40px;
+      background-color: #b388eb;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 40px;
+      font-weight: bold;
+      color: white;
+    }
+
+    #打卡状态 {
+      margin-top: 10px;
+      font-size: 0.95em;
+      color: #333;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🐱 uto的猫猫健身打卡计划</h1>
+    <h1>uto的猫猫健身打卡计划</h1>
     <p>轻松塑形，每天一点点，喵！💪</p>
   </header>
 
-  <div class="section">
-    <h2>✅ 今日打卡</h2>
-    <button onclick="打卡()">我打卡啦！</button>
-    <table id="打卡记录">
-      <tr><th>日期</th><th>状态</th></tr>
-    </table>
-  </div>
+  <main>
+    <div id="左栏">
+      <section>
+        <h2>✅ 今日打卡</h2>
+        <button onclick="打卡()">我打卡啦！</button>
+        <div id="打卡状态">尚未打卡</div>
+        <table id="打卡记录">
+          <tr><th>日期</th><th>状态</th></tr>
+        </table>
+      </section>
 
-  <div class="section">
-    <h2>🧘‍♀️ 一周训练卡片</h2>
-    <div class="card" id="训练内容">
-      <!-- 一周动作清单将自动填充 -->
+      <section>
+        <h2>🍽️ 饮食建议</h2>
+        <ul>
+          <li>早餐：鸡蛋 + 燕麦 + 牛奶或豆浆</li>
+          <li>午餐：蔬菜 + 主食 + 瘦肉或豆腐</li>
+          <li>晚餐：清淡为主，可加蛋白粉或酸奶</li>
+          <li>零食：坚果、水果、无糖酸奶</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>🏆 我的猫猫打卡徽章</h2>
+        <div id="徽章展示">
+          <div class="勋章">1</div>
+          <div class="勋章">2</div>
+          <div class="勋章">3</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>🐾 鼓励语 & 心情记录</h2>
+        <p id="鼓励语">你已经很棒了，继续加油喵！😸</p>
+        <textarea placeholder="今天的心情记录..."></textarea>
+      </section>
     </div>
-  </div>
 
-  <div class="section">
-    <h2>🍽️ 饮食建议</h2>
-    <ul>
-      <li>早餐：鸡蛋 + 燕麦 + 牛奶或豆浆</li>
-      <li>午餐：蔬菜 + 主食 + 瘦肉或豆腐</li>
-      <li>晚餐：清淡为主，可加蛋白粉或酸奶</li>
-      <li>零食：坚果、水果、无糖酸奶</li>
-    </ul>
-  </div>
-  
-<div class="section">
-  <h2>🏆 我的猫猫打卡徽章</h2>
-  <div id="徽章展示">暂无徽章，继续努力喵！😺</div>
-</div>
+    <div id="主内容">
+      <h2>🧘‍♀️ 一周训练卡片</h2>
+      <div id="训练内容"></div>
+    </div>
+  </main>
 
-  <div class="section">
-    <h2>🐾 鼓励语 & 心情记录</h2>
-    <p id="鼓励语">“你已经很棒了，继续加油喵！”</p>
-    <textarea placeholder="今天的心情记录..."></textarea>
-  </div>
+  <script>
+    const 星期 = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
+    const 动作计划 = {
+      0: ["仰卧卷腹（15次 × 2组）", "死虫式（左右交替20次）", "仰卧抬腿（15次 × 2组）", "平板支撑（30秒 × 2组）"],
+      1: ["原地踏步（3分钟）", "开合跳（20次 × 2组）", "高抬腿（30秒 × 2组）", "体侧伸展（左右各30秒）"],
+      2: ["俯卧撑（膝盖支撑版，10次 × 2组）", "俯身后摆臂（20次）", "手臂画圈（前后各20圈）", "猫式伸展（30秒）"],
+      3: ["下犬式（30秒）", "战士一式（左右各30秒）", "坐姿前屈（30秒）", "冥想呼吸（5分钟）"],
+      4: ["跳舞、散步、逛街、骑车，随心所欲动一动就好 🐾"],
+      5: ["站立前屈（30秒）", "蝴蝶式（30秒）", "仰卧扭转（左右各30秒）", "冥想呼吸（5分钟）"],
+      6: ["深蹲（15次 × 2组）", "臀桥（20次 × 2组）", "静态弓步蹲（左右各30秒）", "猫式伸展（30秒）"]
+    };
 
-<script src="main.js"></script>
+    function 填充训练卡片() {
+      const 容器 = document.getElementById("训练内容");
+      if (!容器) {
+        console.error("找不到训练内容容器喵！");
+        return;
+      }
+      容器.innerHTML = "";
+      for (let i = 0; i < 7; i++) {
+        const 卡片 = document.createElement("div");
+        卡片.className = "card";
 
+        const 标题 = document.createElement("div");
+        标题.className = "day-title";
+        标题.textContent = 星期[i];
+        卡片.appendChild(标题);
+
+        const 列表 = document.createElement("ul");
+        动作计划[i].forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          列表.appendChild(li);
+        });
+
+        卡片.appendChild(列表);
+        容器.appendChild(卡片);
+      }
+    }
+
+    function 打卡() {
+      const 现在 = new Date();
+      const 日期 = 现在.toISOString().slice(0,10);
+      const 表格 = document.getElementById("打卡记录");
+      const 行 = document.createElement("tr");
+      行.innerHTML = `<td>${日期}</td><td>已完成 ✅</td>`;
+      表格.appendChild(行);
+
+      document.getElementById("打卡状态").textContent = `今天已经打卡喵！ 🎉`;
+    }
+
+    window.onload = 填充训练卡片;
+  </script>
 </body>
 </html>
