@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# 设置仓库路径
+REPO_PATH="$HOME/uto-fitness-log"
+cd "$REPO_PATH" || exit
+
+# 获取今天日期
+DATE=$(date +"%Y-%m-%d")
+
+# 写入打卡记录到 JSON 文件
+echo "{\"date\": \"$DATE\", \"status\": \"打卡成功\"}" > data.json
+
+# Git 操作
+git add data.json
+git commit -m "更新打卡记录：$DATE"
+git push origin main
