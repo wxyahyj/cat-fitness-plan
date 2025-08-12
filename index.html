@@ -45,21 +45,23 @@
       padding: 8px;
       text-align: center;
     }
-    canvas {
-      max-width: 100%;
-      margin-top: 20px;
-    }
     textarea {
       width: 100%;
       height: 80px;
       margin-top: 10px;
     }
+    .card {
+      background: #ffeef4;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🐱 猫猫健身打卡计划</h1>
-    <p>一起变强壮，喵！💪</p>
+    <h1>🐱 uto的猫猫健身打卡计划</h1>
+    <p>轻松塑形，每天一点点，喵！💪</p>
   </header>
 
   <div class="section">
@@ -71,31 +73,19 @@
   </div>
 
   <div class="section">
-    <h2>🏋️‍♀️ 每周健身计划</h2>
-    <table>
-      <tr><th>星期</th><th>训练内容</th></tr>
-      <tr><td>周一</td><td>深蹲 + 俯卧撑</td></tr>
-      <tr><td>周二</td><td>慢跑 30 分钟</td></tr>
-      <tr><td>周三</td><td>核心训练（平板支撑、卷腹）</td></tr>
-      <tr><td>周四</td><td>休息或拉伸</td></tr>
-      <tr><td>周五</td><td>引体向上 + 弹力带训练</td></tr>
-      <tr><td>周六</td><td>HIIT 高强度间歇训练</td></tr>
-      <tr><td>周日</td><td>瑜伽 + 冥想</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h2>📉 体重变化趋势</h2>
-    <canvas id="weightChart" width="600" height="300"></canvas>
+    <h2>🧘‍♀️ 今日训练卡片</h2>
+    <div class="card" id="训练内容">
+      <!-- 动作清单将自动填充 -->
+    </div>
   </div>
 
   <div class="section">
     <h2>🍽️ 饮食建议</h2>
     <ul>
-      <li>早餐：蛋白质 + 碳水（如鸡蛋 + 燕麦）</li>
-      <li>午餐：均衡搭配（蔬菜 + 主食 + 肉类）</li>
-      <li>晚餐：清淡为主，避免高糖高脂</li>
-      <li>零食：坚果、水果、酸奶</li>
+      <li>早餐：鸡蛋 + 燕麦 + 牛奶或豆浆</li>
+      <li>午餐：蔬菜 + 主食 + 瘦肉或豆腐</li>
+      <li>晚餐：清淡为主，可加蛋白粉或酸奶</li>
+      <li>零食：坚果、水果、无糖酸奶</li>
     </ul>
   </div>
 
@@ -105,8 +95,17 @@
     <textarea placeholder="今天的心情记录..."></textarea>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    const 动作计划 = {
+      0: ["深蹲（15次 × 2组）", "臀桥（20次 × 2组）", "静态弓步蹲（左右各30秒）", "猫式伸展（30秒）"],
+      1: ["仰卧卷腹（15次 × 2组）", "死虫式（左右交替20次）", "仰卧抬腿（15次 × 2组）", "平板支撑（30秒 × 2组）"],
+      2: ["原地踏步（3分钟）", "开合跳（20次 × 2组）", "高抬腿（30秒 × 2组）", "体侧伸展（左右各30秒）"],
+      3: ["俯卧撑（膝盖支撑版，10次 × 2组）", "俯身后摆臂（20次）", "手臂画圈（前后各20圈）", "猫式伸展（30秒）"],
+      4: ["下犬式（30秒）", "战士一式（左右各30秒）", "坐姿前屈（30秒）", "冥想呼吸（5分钟）"],
+      5: ["跳舞、散步、逛街、骑车，随心所欲动一动就好 🐾"],
+      6: ["站立前屈（30秒）", "蝴蝶式（30秒）", "仰卧扭转（左右各30秒）", "冥想呼吸（5分钟）"]
+    };
+
     function 打卡() {
       const table = document.getElementById("打卡记录");
       const row = table.insertRow(-1);
@@ -115,30 +114,29 @@
       const today = new Date().toLocaleDateString();
       dateCell.innerText = today;
       statusCell.innerText = "已打卡 ✅";
+      localStorage.setItem(today, "打卡成功");
     }
 
-    const ctx = document.getElementById('weightChart').getContext('2d');
-    const weightChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['7/1', '7/8', '7/15', '7/22', '7/29'],
-        datasets: [{
-          label: '体重 (kg)',
-          data: [60, 59.5, 59, 58.7, 58.2],
-          borderColor: '#ff69b4',
-          fill: false,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: false
-          }
-        }
+    function 加载训练内容() {
+      const today = new Date().getDay(); // 0 = 周日
+      const 动作 = 动作计划[today];
+      const container = document.getElementById("训练内容");
+      container.innerHTML = 动作.map(item => `<p>🐾 ${item}</p>`).join("");
+    }
+
+    function 恢复打卡记录() {
+      const table = document.getElementById("打卡记录");
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        const row = table.insertRow(-1);
+        row.insertCell(0).innerText = key;
+        row.insertCell(1).innerText = value;
       }
-    });
+    }
+
+    加载训练内容();
+    恢复打卡记录();
   </script>
 </body>
 </html>
